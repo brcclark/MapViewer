@@ -39,6 +39,13 @@ class Map:
 		for i in range(obs.size()):
 			self.Obstacles.append(Vector2(obs[str(i)]["x"],obs[str(i)]["y"]))
 
+	func GetWorldFromGrid(gridPos : Vector2) -> Vector2:
+		return Vector2(gridPos.x * (self.NodeSize.x + self.spacing), gridPos.y * (self.NodeSize.y + self.spacing))
+	
+	func GetGridFromWorld(worldPos : Vector2) -> Vector2:
+		return Vector2(worldPos.x / (self.NodeSize.x + self.spacing), worldPos.y / (self.NodeSize.y + self.spacing))
+		
+		
 func _init():
 	pass
 		
@@ -73,7 +80,7 @@ func drawMap():
 			else:
 				ti = NodeTile.instance()
 			$map.add_child(ti)
-			ti.position = Vector2(i * (map.NodeSize.x + map.spacing),j * (map.NodeSize.x + map.spacing))
+			ti.position = map.GetWorldFromGrid(Vector2(i,j))
 			
 
 func savePath():
@@ -88,8 +95,12 @@ func savePath():
 	fi.store_string(JSON.print(data,'\t'))
 	fi.close()
 
-func loadPath():
-	pass
+func loadPath() -> void:
+	var fi = File.new()
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/StepFile.text + ".json", File.READ)
+	var text = fi.get_as_text()
+	var result_json = JSON.parse(text)
+	fi.close()
 	
 func _on_Button_pressed():
 	drawMap()
@@ -107,3 +118,7 @@ func _on_SaveSteps_pressed():
 	SavedPath.append(Vector2(3,2))
 	SavedPath.append(Vector2(4,2))
 	savePath()
+
+
+func _on_LoadSteps_pressed():
+	loadPath()

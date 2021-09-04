@@ -29,7 +29,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
-margin_right = 269.0
+margin_right = 354.0
 margin_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -64,7 +64,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
 margin_top = 24.0
-margin_right = 269.0
+margin_right = 354.0
 margin_bottom = 44.0
 
 [node name="SaveSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
@@ -91,6 +91,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Move" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
+margin_left = 273.0
+margin_right = 320.0
+margin_bottom = 20.0
+text = "Move"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer2/Load" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer2/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/SaveSteps" to="." method="_on_SaveSteps_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/LoadSteps" to="." method="_on_LoadSteps_pressed"]
