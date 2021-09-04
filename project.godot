@@ -1,0 +1,33 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Resource",
+"class": "Save",
+"language": "GDScript",
+"path": "res://scripts/new_script.gd"
+} ]
+_global_script_class_icons={
+"Save": ""
+}
+
+[application]
+
+config/name="MapVisualizer"
+run/main_scene="res://scns/Main.tscn"
+config/icon="res://icon.png"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
