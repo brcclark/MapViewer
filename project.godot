@@ -12,12 +12,12 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Agent",
 "language": "GDScript",
-"path": "res://scns/Agent.gd"
+"path": "res://scripts/Agent.gd"
 }, {
 "base": "Resource",
 "class": "Save",
 "language": "GDScript",
-"path": "res://scripts/new_script.gd"
+"path": "res://scripts/SaveGame.gd"
 } ]
 _global_script_class_icons={
 "Agent": "",
@@ -28,10 +28,6 @@ _global_script_class_icons={
 
 config/name="MapVisualizer"
 run/main_scene="res://scns/Main.tscn"
-
-[autoload]
-
-Map="*res://scripts/Main.gd"
 
 [physics]
 

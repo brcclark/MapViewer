@@ -1,11 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://media/agent.png" type="Texture" id=1]
-[ext_resource path="res://scns/Agent.gd" type="Script" id=2]
+[ext_resource path="res://scripts/Agent.gd" type="Script" id=2]
 
 [node name="Agent" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
 texture = ExtResource( 1 )

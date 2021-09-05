@@ -1,9 +1,13 @@
+
 extends Node
 
 export(PackedScene) var NodeTile
 export(PackedScene) var ObstacleTile
+export(PackedScene) var AgentScn
 
 var SavedPath : Array = []
+var currentMap : Map = Map.new()
+var Agent1
 
 class Map:
 	var width : int
@@ -51,48 +55,41 @@ func _init():
 		
 
 func saveMap():
-	var map = Map.new()
-	map.width = 4
-	map.height = 4
-	map.NodeSize = Vector2(32,32)
-	map.spacing = 2
-	map.Obstacles.append(Vector2(0,0))
-	map.Obstacles.append(Vector2(0,1))
+	currentMap.width = 4
+	currentMap.height = 4
+	currentMap.NodeSize = Vector2(32,32)
+	currentMap.spacing = 2
+	currentMap.Obstacles.append(Vector2(0,0))
+	currentMap.Obstacles.append(Vector2(0,1))
 	var fi = File.new()
 	fi.open("res://tst.json", File.WRITE)
-	fi.store_string(JSON.print(map.Save(),"\t"))
+	fi.store_string(JSON.print(currentMap.Save(),"\t"))
 	fi.close()
 
 func drawMap():
-	var map = Map.new()
+	
 	var fi = File.new()
 	fi.open("res://tst.json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
-	map.Load(result_json.result)
+	currentMap.Load(result_json.result)
 	fi.close()
 	
-	for i in range(map.width):
-		for j in range(map.height):
+	for i in range(currentMap.width):
+		for j in range(currentMap.height):
 			var ti
-			if map.Obstacles.find(Vector2(i,j)) >= 0:
+			if currentMap.Obstacles.find(Vector2(i,j)) >= 0:
 				ti = ObstacleTile.instance()
 			else:
 				ti = NodeTile.instance()
 			$map.add_child(ti)
-			ti.position = map.GetWorldFromGrid(Vector2(i,j))
+			ti.position = currentMap.GetWorldFromGrid(Vector2(i,j))
 			
 
 func savePath():
-	var data : Dictionary = {}
-	for i in range(SavedPath.size()):
-		var tmp : Dictionary = {}
-		tmp["x"] = SavedPath[i].x
-		tmp["y"] = SavedPath[i].y
-		data[i] = tmp
 	var fi = File.new()
 	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/StepFile.text + ".json", File.WRITE)
-	fi.store_string(JSON.print(data,'\t'))
+	fi.store_string(AgentScn.GetSaveData())
 	fi.close()
 
 func loadPath() -> void:
@@ -111,14 +108,25 @@ func _on_Save_pressed():
 
 
 func _on_SaveSteps_pressed():
-	SavedPath.append(Vector2(1,0))
-	SavedPath.append(Vector2(2,0))
-	SavedPath.append(Vector2(2,1))
-	SavedPath.append(Vector2(2,2))
-	SavedPath.append(Vector2(3,2))
-	SavedPath.append(Vector2(4,2))
+	AgentScn.PlannedPath.append(Vector2(1,0))
+	AgentScn.PlannedPath.append(Vector2(2,0))
+	AgentScn.PlannedPath.append(Vector2(2,1))
+	AgentScn.PlannedPath.append(Vector2(2,2))
+	AgentScn.PlannedPath.append(Vector2(3,2))
+	AgentScn.PlannedPath.append(Vector2(4,2))
 	savePath()
 
 
 func _on_LoadSteps_pressed():
-	loadPath()
+	var fi = File.new()
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/StepFile.text + ".json", File.READ)
+	var text = fi.get_as_text()
+	var result_json = JSON.parse(text)
+	Agent1 = AgentScn.instance()
+	Agent1.LoadSaveData(result_json.result)
+	$map.add_child(Agent1)
+	fi.close()
+
+
+func _on_Move_pressed():
+	Agent1.StepPos(50)

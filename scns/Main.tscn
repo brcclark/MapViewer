@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scns/NodeTile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scns/ObstacleTile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=3]
+[ext_resource path="res://scns/Agent.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
 NodeTile = ExtResource( 1 )
 ObstacleTile = ExtResource( 2 )
+AgentScn = ExtResource( 4 )
 
 [node name="map" type="Node2D" parent="."]
 position = Vector2( 50, 75 )
@@ -29,7 +31,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
-margin_right = 354.0
+margin_right = 320.0
 margin_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -64,7 +66,7 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
 margin_top = 24.0
-margin_right = 354.0
+margin_right = 320.0
 margin_bottom = 44.0
 
 [node name="SaveSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
@@ -104,3 +106,4 @@ __meta__ = {
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer2/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/SaveSteps" to="." method="_on_SaveSteps_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/LoadSteps" to="." method="_on_LoadSteps_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/Move" to="." method="_on_Move_pressed"]
