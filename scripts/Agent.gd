@@ -48,9 +48,8 @@ func StepPos(speed : float) -> void:
 	
 func _process(delta) -> void:
 	if !_atPosition:
-		var dir = _destPosition - PlannedPath[_currentStep]
-		#position += dir * _currentSpeed * delta
-		position.move_toward(_destPosition,delta * _currentSpeed)
-		if position == get_parent().get_parent().currentMap.GetWorldFromGrid(_destPosition):
+		var map = get_parent().get_parent().currentMap
+		position = lerp(position,map.GetWorldFromGrid(_destPosition),_currentSpeed*delta)
+		if position == map.GetWorldFromGrid(_destPosition):
 			_atPosition = true
 			_currentStep += 1
