@@ -8,6 +8,7 @@ export(PackedScene) var AgentScn
 var SavedPath : Array = []
 var currentMap : Map = Map.new()
 var Agent1
+var Agents: Array = []
 
 class Map:
 	var width : int
@@ -44,10 +45,10 @@ class Map:
 			self.Obstacles.append(Vector2(obs[str(i)]["x"],obs[str(i)]["y"]))
 
 	func GetWorldFromGrid(gridPos : Vector2) -> Vector2:
-		return Vector2(gridPos.x * (self.NodeSize.x + self.spacing), gridPos.y * (self.NodeSize.y + self.spacing))
+		return Vector2(gridPos.x * (self.NodeSize.x + self.spacing) + self.NodeSize.x / 2, gridPos.y * (self.NodeSize.y + self.spacing) + self.NodeSize.y / 2)
 	
 	func GetGridFromWorld(worldPos : Vector2) -> Vector2:
-		return Vector2(worldPos.x / (self.NodeSize.x + self.spacing), worldPos.y / (self.NodeSize.y + self.spacing))
+		return Vector2((worldPos.x - self.NodeSize.x / 2) / (self.NodeSize.x + self.spacing), (worldPos.y -self.NodeSize.y / 2) / (self.NodeSize.y + self.spacing))
 		
 		
 func _init():
@@ -55,21 +56,19 @@ func _init():
 		
 
 func saveMap():
-	currentMap.width = 4
-	currentMap.height = 4
+	currentMap.width = currentMap.width
+	currentMap.height = currentMap.height
 	currentMap.NodeSize = Vector2(32,32)
 	currentMap.spacing = 2
-	currentMap.Obstacles.append(Vector2(0,0))
-	currentMap.Obstacles.append(Vector2(0,1))
 	var fi = File.new()
-	fi.open("res://tst.json", File.WRITE)
+	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/Map/MapFile.text + ".json", File.WRITE)
 	fi.store_string(JSON.print(currentMap.Save(),"\t"))
 	fi.close()
 
 func drawMap():
 	
 	var fi = File.new()
-	fi.open("res://tst.json", File.READ)
+	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/Map/MapFile.text + ".json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
 	currentMap.Load(result_json.result)
@@ -78,23 +77,28 @@ func drawMap():
 	for i in range(currentMap.width):
 		for j in range(currentMap.height):
 			var ti
+			ti = NodeTile.instance()
+			ti.gridLocation = Vector2(i,j)
 			if currentMap.Obstacles.find(Vector2(i,j)) >= 0:
-				ti = ObstacleTile.instance()
+				ti.pressed = true
+				ti.obstacle = true
 			else:
-				ti = NodeTile.instance()
+				ti.pressed = false
+				ti.obstacle = false
 			$map.add_child(ti)
-			ti.position = currentMap.GetWorldFromGrid(Vector2(i,j))
+			ti.SetPosition(currentMap.GetWorldFromGrid(Vector2(i,j)))
+			ti.connect("TypeToggled", self, "_on_Node_Toggled")
 			
 
 func savePath():
 	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/StepFile.text + ".json", File.WRITE)
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/Steps/StepFile.text + ".json", File.WRITE)
 	fi.store_string(AgentScn.GetSaveData())
 	fi.close()
 
 func loadPath() -> void:
 	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/StepFile.text + ".json", File.READ)
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/Steps/StepFile.text + ".json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
 	fi.close()
@@ -105,6 +109,12 @@ func _on_Button_pressed():
 
 func _on_Save_pressed():
 	saveMap()
+
+func _on_Node_Toggled(pressed: bool, gridLocation: Vector2)-> void:
+	if pressed:
+		currentMap.Obstacles.erase(gridLocation)
+	else:
+		currentMap.Obstacles.append(gridLocation)
 
 
 func _on_SaveSteps_pressed():
@@ -119,7 +129,7 @@ func _on_SaveSteps_pressed():
 
 func _on_LoadSteps_pressed():
 	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/StepFile.text + ".json", File.READ)
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/Steps/StepFile.text + ".json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
 	Agent1 = AgentScn.instance()
@@ -129,4 +139,30 @@ func _on_LoadSteps_pressed():
 
 
 func _on_Move_pressed():
-	Agent1.StepPos(50)
+	for agnt in Agents:
+		agnt.StepPos(50)
+	
+
+func _on_print_pressed():
+#	var txt: String
+#	for y in range(currentMap.height,0,-1):
+#		for x in range(currentMap.width):
+#			if currentMap.Obstacles.find(Vector2(x,y)) >= 0:
+#				txt+="@"
+#			else:
+#				txt+="."
+#		txt+="\n"
+#	print(txt)
+#
+	var fi = File.new()
+	fi.open("res://tst/paths.txt",File.READ)
+	var index = 1
+	while not fi.eof_reached():
+		var line = fi.get_line() as String
+		var paths = line.substr(line.find(": ") + 2,line.length()).split("->",false)
+		if paths.size() > 0:
+			var agnt = AgentScn.instance()
+			agnt.ParsePathString(paths)
+			$map.add_child(agnt)
+			Agents.append(agnt)
+	fi.close()

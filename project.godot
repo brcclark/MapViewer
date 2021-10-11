@@ -14,13 +14,19 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/Agent.gd"
 }, {
+"base": "Button",
+"class": "NodeTile",
+"language": "GDScript",
+"path": "res://scripts/NodeTile.gd"
+}, {
 "base": "Resource",
 "class": "Save",
 "language": "GDScript",
-"path": "res://scripts/SaveGame.gd"
+"path": "res://scripts/new_script.gd"
 } ]
 _global_script_class_icons={
 "Agent": "",
+"NodeTile": "",
 "Save": ""
 }
 

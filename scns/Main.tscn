@@ -11,9 +11,6 @@ NodeTile = ExtResource( 1 )
 ObstacleTile = ExtResource( 2 )
 AgentScn = ExtResource( 4 )
 
-[node name="map" type="Node2D" parent="."]
-position = Vector2( 50, 75 )
-
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -30,14 +27,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+[node name="Map" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
 margin_right = 320.0
 margin_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Load" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer2"]
+[node name="Load" type="Button" parent="UI/CanvasLayer/VBoxContainer/Map"]
 margin_right = 42.0
 margin_bottom = 20.0
 text = "Load"
@@ -45,7 +42,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Save" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer2"]
+[node name="Save" type="Button" parent="UI/CanvasLayer/VBoxContainer/Map"]
 margin_left = 46.0
 margin_right = 87.0
 margin_bottom = 20.0
@@ -54,7 +51,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LoadFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer2"]
+[node name="MapFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/Map"]
 margin_left = 91.0
 margin_right = 191.0
 margin_bottom = 20.0
@@ -64,17 +61,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+[node name="Steps" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
 margin_top = 24.0
 margin_right = 320.0
 margin_bottom = 44.0
 
-[node name="SaveSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="SaveSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/Steps"]
 margin_right = 80.0
 margin_bottom = 20.0
 text = "Save Steps"
 
-[node name="LoadSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="LoadSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/Steps"]
 margin_left = 84.0
 margin_right = 165.0
 margin_bottom = 20.0
@@ -83,7 +80,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StepFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="StepFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/Steps"]
 margin_left = 169.0
 margin_right = 269.0
 margin_bottom = 20.0
@@ -93,7 +90,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Move" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="Move" type="Button" parent="UI/CanvasLayer/VBoxContainer/Steps"]
 margin_left = 273.0
 margin_right = 320.0
 margin_bottom = 20.0
@@ -102,8 +99,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer2/Load" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer2/Save" to="." method="_on_Save_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/SaveSteps" to="." method="_on_SaveSteps_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/LoadSteps" to="." method="_on_LoadSteps_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/Move" to="." method="_on_Move_pressed"]
+[node name="print" type="Button" parent="UI/CanvasLayer"]
+margin_left = 403.0
+margin_top = 12.0
+margin_right = 536.0
+margin_bottom = 32.0
+text = "Print"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="map" type="Node2D" parent="."]
+position = Vector2( 50, 75 )
+
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Map/Load" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Map/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Steps/SaveSteps" to="." method="_on_SaveSteps_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Steps/LoadSteps" to="." method="_on_LoadSteps_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Steps/Move" to="." method="_on_Move_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/print" to="." method="_on_print_pressed"]
