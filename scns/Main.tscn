@@ -14,6 +14,8 @@ AgentScn = ExtResource( 4 )
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 1.0
+margin_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -27,14 +29,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Map" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+margin_right = 322.0
+margin_bottom = 44.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer"]
+margin_right = 320.0
+margin_bottom = 44.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Map" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 margin_right = 320.0
 margin_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Load" type="Button" parent="UI/CanvasLayer/VBoxContainer/Map"]
+[node name="Load" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map"]
 margin_right = 42.0
 margin_bottom = 20.0
 text = "Load"
@@ -42,7 +58,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Save" type="Button" parent="UI/CanvasLayer/VBoxContainer/Map"]
+[node name="Save" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map"]
 margin_left = 46.0
 margin_right = 87.0
 margin_bottom = 20.0
@@ -51,7 +67,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/Map"]
+[node name="MapFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map"]
 margin_left = 91.0
 margin_right = 191.0
 margin_bottom = 20.0
@@ -61,17 +77,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Steps" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+[node name="BtnExport" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map"]
+margin_left = 195.0
+margin_right = 247.0
+margin_bottom = 20.0
+text = "Export"
+
+[node name="Steps" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 24.0
 margin_right = 320.0
 margin_bottom = 44.0
 
-[node name="SaveSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/Steps"]
+[node name="SaveSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps"]
 margin_right = 80.0
 margin_bottom = 20.0
 text = "Save Steps"
 
-[node name="LoadSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/Steps"]
+[node name="LoadSteps" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps"]
 margin_left = 84.0
 margin_right = 165.0
 margin_bottom = 20.0
@@ -80,7 +102,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StepFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/Steps"]
+[node name="StepFile" type="TextEdit" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps"]
 margin_left = 169.0
 margin_right = 269.0
 margin_bottom = 20.0
@@ -90,7 +112,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Move" type="Button" parent="UI/CanvasLayer/VBoxContainer/Steps"]
+[node name="Move" type="Button" parent="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps"]
 margin_left = 273.0
 margin_right = 320.0
 margin_bottom = 20.0
@@ -99,22 +121,107 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="print" type="Button" parent="UI/CanvasLayer"]
-margin_left = 403.0
-margin_top = 12.0
-margin_right = 536.0
-margin_bottom = 32.0
-text = "Print"
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 322.0
+margin_bottom = 470.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="map" type="Node2D" parent="."]
-position = Vector2( 50, 75 )
+[node name="Panel" type="PanelContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+margin_right = 322.0
+margin_bottom = 350.0
+rect_min_size = Vector2( 300, 350 )
 
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Map/Load" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Map/Save" to="." method="_on_Save_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Steps/SaveSteps" to="." method="_on_SaveSteps_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Steps/LoadSteps" to="." method="_on_LoadSteps_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/Steps/Move" to="." method="_on_Move_pressed"]
-[connection signal="pressed" from="UI/CanvasLayer/print" to="." method="_on_print_pressed"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 315.0
+margin_bottom = 343.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Row" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer"]
+margin_right = 308.0
+margin_bottom = 14.0
+
+[node name="NodeIndex" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Row"]
+margin_right = 100.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 100, 0 )
+text = "Node Index"
+align = 1
+
+[node name="StartPosition" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Row"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 100, 0 )
+text = "Start Position"
+align = 1
+
+[node name="GoalPosition" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Row"]
+margin_left = 208.0
+margin_right = 308.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 100, 0 )
+text = "Goal Position"
+align = 1
+
+[node name="Tree" type="Tree" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer"]
+margin_top = 18.0
+margin_right = 308.0
+margin_bottom = 218.0
+rect_min_size = Vector2( 0, 200 )
+columns = 3
+hide_folding = true
+
+[node name="AgentEditing" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+margin_top = 354.0
+margin_right = 322.0
+margin_bottom = 394.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AgentEditMode" type="CheckButton" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/AgentEditing"]
+margin_right = 145.0
+margin_bottom = 40.0
+text = "Agent Edit"
+
+[node name="Label" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/AgentEditing"]
+margin_left = 149.0
+margin_top = 13.0
+margin_right = 248.0
+margin_bottom = 27.0
+text = "Selected Index:"
+
+[node name="SelectedIndex" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/AgentEditing"]
+margin_left = 252.0
+margin_top = 13.0
+margin_right = 268.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 16, 0 )
+
+[node name="Steps" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+margin_top = 398.0
+margin_right = 322.0
+margin_bottom = 398.0
+
+[node name="ExportAgents" type="Button" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+margin_top = 402.0
+margin_right = 322.0
+margin_bottom = 422.0
+text = "Export Agents"
+
+[node name="map" type="Node2D" parent="."]
+position = Vector2( 350, 75 )
+
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map/Load" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map/BtnExport" to="." method="_on_BtnExport_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/SaveSteps" to="." method="_on_SaveSteps_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/LoadSteps" to="." method="_on_LoadSteps_pressed"]
+[connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/Move" to="." method="_on_Move_pressed"]

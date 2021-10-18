@@ -35,6 +35,15 @@ _global_script_class_icons={
 config/name="MapVisualizer"
 run/main_scene="res://scns/Main.tscn"
 
+[display]
+
+window/size/width=1600
+window/size/height=900
+
+[global]
+
+resol=false
+
 [physics]
 
 common/enable_pause_aware_picking=true

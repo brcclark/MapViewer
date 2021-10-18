@@ -5,6 +5,8 @@ export(PackedScene) var NodeTile
 export(PackedScene) var ObstacleTile
 export(PackedScene) var AgentScn
 
+onready var agentTree = get_node("UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Tree")
+
 var SavedPath : Array = []
 var currentMap : Map = Map.new()
 var Agent1
@@ -51,9 +53,11 @@ class Map:
 		return Vector2((worldPos.x - self.NodeSize.x / 2) / (self.NodeSize.x + self.spacing), (worldPos.y -self.NodeSize.y / 2) / (self.NodeSize.y + self.spacing))
 		
 		
-func _init():
-	pass
-		
+func _ready():
+	var root = agentTree.create_item()
+	root.set_text(0,"Root")
+	
+	
 
 func saveMap():
 	currentMap.width = currentMap.width
@@ -61,14 +65,14 @@ func saveMap():
 	currentMap.NodeSize = Vector2(32,32)
 	currentMap.spacing = 2
 	var fi = File.new()
-	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/Map/MapFile.text + ".json", File.WRITE)
+	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map/MapFile.text + ".json", File.WRITE)
 	fi.store_string(JSON.print(currentMap.Save(),"\t"))
 	fi.close()
 
 func drawMap():
 	
 	var fi = File.new()
-	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/Map/MapFile.text + ".json", File.READ)
+	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map/MapFile.text + ".json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
 	currentMap.Load(result_json.result)
@@ -92,13 +96,13 @@ func drawMap():
 
 func savePath():
 	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/Steps/StepFile.text + ".json", File.WRITE)
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/StepFile.text + ".json", File.WRITE)
 	fi.store_string(AgentScn.GetSaveData())
 	fi.close()
 
 func loadPath() -> void:
 	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/Steps/StepFile.text + ".json", File.READ)
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/StepFile.text + ".json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
 	fi.close()
@@ -129,7 +133,7 @@ func _on_SaveSteps_pressed():
 
 func _on_LoadSteps_pressed():
 	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/Steps/StepFile.text + ".json", File.READ)
+	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/StepFile.text + ".json", File.READ)
 	var text = fi.get_as_text()
 	var result_json = JSON.parse(text)
 	Agent1 = AgentScn.instance()
@@ -165,4 +169,27 @@ func _on_print_pressed():
 			agnt.ParsePathString(paths)
 			$map.add_child(agnt)
 			Agents.append(agnt)
+	fi.close()
+
+
+func _on_BtnExport_pressed():
+	# Export the current map to a txt file for EECBS running
+	ExportMap($UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Map/MapFile.text + ".txt")
+	pass # Replace with function body.
+
+func ExportMap(filePath : String) -> void:
+	var fi = File.new()
+	fi.open("res://maps/" + filePath,File.WRITE)
+	fi.store_string("type octile\n")
+	fi.store_string("height " + String(currentMap.height) + "\n")
+	fi.store_string("width " + String(currentMap.width) + "\n")
+	for y in range(0,currentMap.height,1):
+		var line = "" as String
+		for x in range(0,currentMap.width,1):
+			if currentMap.Obstacles.find(Vector2(x,y)) >= 0:
+				line += "@"
+			else:
+				line += "."
+		line += "\n"
+		fi.store_string(line)
 	fi.close()
