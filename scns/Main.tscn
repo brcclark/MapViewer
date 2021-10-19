@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scns/NodeTile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scns/ObstacleTile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=3]
 [ext_resource path="res://scns/Agent.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/AgentList.gd" type="Script" id=5]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
@@ -30,7 +31,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 44.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -121,98 +122,57 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
+[node name="AgentList" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer"]
 margin_top = 48.0
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 470.0
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="PanelContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
-margin_right = 322.0
+[node name="Tree" type="Tree" parent="UI/CanvasLayer/VBoxContainer/AgentList"]
+margin_right = 320.0
 margin_bottom = 350.0
-rect_min_size = Vector2( 300, 350 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 315.0
-margin_bottom = 343.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Row" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer"]
-margin_right = 308.0
-margin_bottom = 14.0
-
-[node name="NodeIndex" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Row"]
-margin_right = 100.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 100, 0 )
-text = "Node Index"
-align = 1
-
-[node name="StartPosition" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Row"]
-margin_left = 104.0
-margin_right = 204.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 100, 0 )
-text = "Start Position"
-align = 1
-
-[node name="GoalPosition" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Row"]
-margin_left = 208.0
-margin_right = 308.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 100, 0 )
-text = "Goal Position"
-align = 1
-
-[node name="Tree" type="Tree" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer"]
-margin_top = 18.0
-margin_right = 308.0
-margin_bottom = 218.0
-rect_min_size = Vector2( 0, 200 )
+rect_min_size = Vector2( 0, 350 )
 columns = 3
 hide_folding = true
 
-[node name="AgentEditing" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+[node name="AgentEditing" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/AgentList"]
 margin_top = 354.0
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 394.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AgentEditMode" type="CheckButton" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/AgentEditing"]
+[node name="AgentEditMode" type="CheckButton" parent="UI/CanvasLayer/VBoxContainer/AgentList/AgentEditing"]
 margin_right = 145.0
 margin_bottom = 40.0
 text = "Agent Edit"
 
-[node name="Label" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/AgentEditing"]
+[node name="Label" type="Label" parent="UI/CanvasLayer/VBoxContainer/AgentList/AgentEditing"]
 margin_left = 149.0
 margin_top = 13.0
 margin_right = 248.0
 margin_bottom = 27.0
 text = "Selected Index:"
 
-[node name="SelectedIndex" type="Label" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer/AgentEditing"]
+[node name="SelectedIndex" type="Label" parent="UI/CanvasLayer/VBoxContainer/AgentList/AgentEditing"]
 margin_left = 252.0
 margin_top = 13.0
 margin_right = 268.0
 margin_bottom = 27.0
 rect_min_size = Vector2( 16, 0 )
 
-[node name="Steps" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+[node name="Steps" type="HBoxContainer" parent="UI/CanvasLayer/VBoxContainer/AgentList"]
 margin_top = 398.0
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 398.0
 
-[node name="ExportAgents" type="Button" parent="UI/CanvasLayer/VBoxContainer/VBoxContainer"]
+[node name="ExportAgents" type="Button" parent="UI/CanvasLayer/VBoxContainer/AgentList"]
 margin_top = 402.0
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 422.0
 text = "Export Agents"
 
