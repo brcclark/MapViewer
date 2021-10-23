@@ -15,7 +15,9 @@ AgentScn = ExtResource( 4 )
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 5.0
 margin_top = 1.0
+margin_right = 5.0
 margin_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -108,7 +110,7 @@ margin_left = 169.0
 margin_right = 269.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 100, 0 )
-text = "steps"
+text = "paths"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -131,7 +133,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tree" type="Tree" parent="UI/CanvasLayer/VBoxContainer/AgentList"]
+[node name="AgentListTree" type="Tree" parent="UI/CanvasLayer/VBoxContainer/AgentList"]
 margin_right = 320.0
 margin_bottom = 350.0
 rect_min_size = Vector2( 0, 350 )
@@ -185,3 +187,5 @@ position = Vector2( 350, 75 )
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/SaveSteps" to="." method="_on_SaveSteps_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/LoadSteps" to="." method="_on_LoadSteps_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/Move" to="." method="_on_Move_pressed"]
+[connection signal="item_double_clicked" from="UI/CanvasLayer/VBoxContainer/AgentList/AgentListTree" to="UI/CanvasLayer/VBoxContainer/AgentList" method="_on_AgentListTree_item_double_clicked"]
+[connection signal="toggled" from="UI/CanvasLayer/VBoxContainer/AgentList/AgentEditing/AgentEditMode" to="UI/CanvasLayer/VBoxContainer/AgentList" method="_on_AgentEditMode_toggled"]

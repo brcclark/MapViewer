@@ -5,7 +5,7 @@ export(PackedScene) var NodeTile
 export(PackedScene) var ObstacleTile
 export(PackedScene) var AgentScn
 
-onready var agentTree = get_node("UI/CanvasLayer/VBoxContainer/VBoxContainer/Panel/VBoxContainer/Tree")
+onready var agentTree = get_node("UI/CanvasLayer/VBoxContainer/AgentList/AgentListTree")
 
 var SavedPath : Array = []
 var currentMap : Map = Map.new()
@@ -52,11 +52,7 @@ class Map:
 	func GetGridFromWorld(worldPos : Vector2) -> Vector2:
 		return Vector2((worldPos.x - self.NodeSize.x / 2) / (self.NodeSize.x + self.spacing), (worldPos.y -self.NodeSize.y / 2) / (self.NodeSize.y + self.spacing))
 		
-		
-func _ready():
-	var root = agentTree.create_item()
-	root.set_text(0,"Root")
-	
+
 	
 
 func saveMap():
@@ -132,34 +128,9 @@ func _on_SaveSteps_pressed():
 
 
 func _on_LoadSteps_pressed():
-	var fi = File.new()
-	fi.open("res://" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/StepFile.text + ".json", File.READ)
-	var text = fi.get_as_text()
-	var result_json = JSON.parse(text)
-	Agent1 = AgentScn.instance()
-	Agent1.LoadSaveData(result_json.result)
-	$map.add_child(Agent1)
-	fi.close()
-
-
-func _on_Move_pressed():
-	for agnt in Agents:
-		agnt.StepPos(50)
 	
-
-func _on_print_pressed():
-#	var txt: String
-#	for y in range(currentMap.height,0,-1):
-#		for x in range(currentMap.width):
-#			if currentMap.Obstacles.find(Vector2(x,y)) >= 0:
-#				txt+="@"
-#			else:
-#				txt+="."
-#		txt+="\n"
-#	print(txt)
-#
 	var fi = File.new()
-	fi.open("res://tst/paths.txt",File.READ)
+	fi.open("res://maps/" + $UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/StepFile.text + ".txt", File.READ)
 	var index = 1
 	while not fi.eof_reached():
 		var line = fi.get_line() as String
@@ -170,7 +141,14 @@ func _on_print_pressed():
 			$map.add_child(agnt)
 			Agents.append(agnt)
 	fi.close()
+	
+	agentTree.get_parent().LoadAgents(Agents)
+	
 
+func _on_Move_pressed():
+	for agnt in Agents:
+		agnt.StepPos(50)
+	
 
 func _on_BtnExport_pressed():
 	# Export the current map to a txt file for EECBS running
