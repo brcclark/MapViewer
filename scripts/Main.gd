@@ -9,8 +9,10 @@ onready var agentTree = get_node("UI/CanvasLayer/VBoxContainer/AgentList/AgentLi
 
 var SavedPath : Array = []
 var currentMap : Map = Map.new()
-var Agent1
+
 var Agents: Array = []
+
+var AgentEditMode : bool = false
 
 class Map:
 	var width : int
@@ -110,12 +112,33 @@ func _on_Button_pressed():
 func _on_Save_pressed():
 	saveMap()
 
-func _on_Node_Toggled(pressed: bool, gridLocation: Vector2)-> void:
-	if pressed:
-		currentMap.Obstacles.erase(gridLocation)
-	else:
-		currentMap.Obstacles.append(gridLocation)
+func SearchAgents(gridLocation: Vector2) -> int:
+	var result = -1
+	for agnt in Agents:
+		if agnt.start == gridLocation:
+			result = Agents.find(agnt)
+			break
+	return result
 
+func _on_Node_Toggled(pressed: bool, gridLocation: Vector2)-> void:
+	if not AgentEditMode:
+		if pressed:
+			currentMap.Obstacles.erase(gridLocation)
+		else:
+			currentMap.Obstacles.append(gridLocation)
+	else:
+		#If it's been pressed, it's already an agent, so go ahead and remove it
+		var idx = SearchAgents(gridLocation)
+		if idx > -1:
+			agentTree.get_parent().RemoveAgent(Agents[idx])
+			Agents[idx].queue_free()
+			Agents.remove(idx)	
+		else:
+			var agnt = AgentScn.instance()
+			agnt.Create(gridLocation)
+			$map.add_child(agnt)
+			Agents.append(agnt)
+			agentTree.get_parent().AddAgent(agnt)
 
 func _on_SaveSteps_pressed():
 	AgentScn.PlannedPath.append(Vector2(1,0))
@@ -171,3 +194,7 @@ func ExportMap(filePath : String) -> void:
 		line += "\n"
 		fi.store_string(line)
 	fi.close()
+
+
+func _on_AgentList_EditModeChanged(ButtonPressed):
+	AgentEditMode = ButtonPressed

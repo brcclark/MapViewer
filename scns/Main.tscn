@@ -187,5 +187,6 @@ position = Vector2( 350, 75 )
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/SaveSteps" to="." method="_on_SaveSteps_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/LoadSteps" to="." method="_on_LoadSteps_pressed"]
 [connection signal="pressed" from="UI/CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer2/Steps/Move" to="." method="_on_Move_pressed"]
+[connection signal="EditModeChanged" from="UI/CanvasLayer/VBoxContainer/AgentList" to="." method="_on_AgentList_EditModeChanged"]
 [connection signal="item_double_clicked" from="UI/CanvasLayer/VBoxContainer/AgentList/AgentListTree" to="UI/CanvasLayer/VBoxContainer/AgentList" method="_on_AgentListTree_item_double_clicked"]
 [connection signal="toggled" from="UI/CanvasLayer/VBoxContainer/AgentList/AgentEditing/AgentEditMode" to="UI/CanvasLayer/VBoxContainer/AgentList" method="_on_AgentEditMode_toggled"]

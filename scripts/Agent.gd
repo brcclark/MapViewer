@@ -39,6 +39,12 @@ func ParsePathString(path : PoolStringArray) -> void:
 	
 	position = Vector2(start.x * (32+2), start.y * (32 + 2))
 	
+func Create(startLocation: Vector2, _goalLocation = Vector2(0,0)):
+	self.start = startLocation
+	self.goal = _goalLocation
+	
+	position = Vector2(start.x * (32+2), start.y * (32 + 2))
+	
 func GetSaveData() -> String:
 	var agnt  : Dictionary = {}
 	var data : Dictionary = {}

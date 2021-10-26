@@ -1,8 +1,7 @@
 extends VBoxContainer
 onready var agentTree = get_node("AgentListTree")
 
-func _init():
-	pass
+signal EditModeChanged
 	
 func LoadAgents(Agents):
 	agentTree.clear()
@@ -19,13 +18,31 @@ func LoadAgents(Agents):
 		itm.set_text(2,String(agent.goal))
 		itm.set_editable(2,false)
 
-
+func RemoveAgent(Agent) -> void:
+	var child = agentTree.get_root().get_children()
+	while child != null:
+		if child.get_text(1) == String(Agent.start): #TODO this should actually be the ID, not the start location
+			child.free()
+			agentTree.update()
+			break
+		else:
+			child = child.get_next()
+			
+func AddAgent(Agent) -> void:
+	var itm = agentTree.create_item(agentTree.get_root())
+	itm.set_text(0,Agent.id)
+	itm.set_editable(0,false)
+	itm.set_text(1,String(Agent.start))
+	itm.set_editable(1,false)
+	itm.set_text(2,String(Agent.goal))
+	itm.set_editable(2,false)
 
 func _on_AgentListTree_item_double_clicked():
 	agentTree.edit_selected()
 
 
 func _on_AgentEditMode_toggled(button_pressed):
+	emit_signal("EditModeChanged",button_pressed)
 	var child = agentTree.get_root().get_children()
 	while child != null:
 		child.set_editable(1,button_pressed)
